@@ -1,64 +1,261 @@
-
+```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wil je op date? ❤️</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:linear-gradient(135deg,#fff0f5,#ffe1eb,#fff7fa);display:flex;justify-content:center;align-items:center;color:#29202a;overflow-x:hidden}
-.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-.heart{position:absolute;bottom:-40px;animation:up linear forwards;opacity:.7}
-@keyframes up{from{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.7}to{transform:translateY(-110vh) rotate(360deg);opacity:0}}
-.card{position:relative;z-index:2;width:min(92%,600px);background:#fffffff2;border-radius:28px;padding:38px 30px;box-shadow:0 20px 60px #782d4d2e;text-align:center;margin:25px 0}
-.step{display:none}
-.step.active{display:block;animation:fade .4s ease}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-h1{font-size:clamp(30px,7vw,48px);margin:5px 0 12px}
-h2{font-size:28px;margin:5px 0 12px}
-p{color:#6d5a64;line-height:1.6}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:25px 0}
-.choice{margin:0;background:#fff3f7;border:2px solid transparent;color:#3e3037;min-height:72px}
-.choice.selected{border-color:#ff4f81;background:#ffe4ed}
-.choice.full{grid-column:1/-1}
-button{border:0;border-radius:15px;padding:15px 24px;font-size:17px;font-weight:bold;cursor:pointer;transition:.2s;margin:7px}
-button:hover{transform:translateY(-2px) scale(1.02)}
-.yes{background:#ff4f81;color:white}
-.no{background:#eee7eb;color:#594c53}
-.disabled{opacity:.55;cursor:default;pointer-events:none}
-.next{background:#29202a;color:white}
-.next:disabled{opacity:.35;cursor:not-allowed}
-.back{background:transparent;color:#7a6871;font-size:14px}
-input,select{width:100%;border:2px solid #eadce2;border-radius:14px;padding:15px;font:inherit;outline:none;background:white}
-input:focus,select:focus{border-color:#ff8aaa}
 
-.date-fields{
-display:grid;
-grid-template-columns:1fr 1.5fr 1fr;
-gap:10px;
-margin:20px 0;
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #fff0f5, #ffe1eb, #fff7fa);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #29202a;
+  overflow-x: hidden;
+}
+
+.hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  animation: up linear forwards;
+  opacity: .7;
+}
+
+@keyframes up {
+  from {
+    transform: translateY(0) rotate(0);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: .7;
+  }
+
+  to {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.card {
+  position: relative;
+  z-index: 2;
+  width: min(92%, 600px);
+  background: #fffffff2;
+  border-radius: 28px;
+  padding: 38px 30px;
+  box-shadow: 0 20px 60px #782d4d2e;
+  text-align: center;
+  margin: 25px 0;
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+  animation: fade .4s ease;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  font-size: clamp(30px, 7vw, 48px);
+  margin: 5px 0 12px;
+}
+
+h2 {
+  font-size: 28px;
+  margin: 5px 0 12px;
+}
+
+p {
+  color: #6d5a64;
+  line-height: 1.6;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.choice {
+  margin: 0;
+  background: #fff3f7;
+  border: 2px solid transparent;
+  color: #3e3037;
+  min-height: 72px;
+}
+
+.choice.selected {
+  border-color: #ff4f81;
+  background: #ffe4ed;
+}
+
+.choice.full {
+  grid-column: 1 / -1;
+}
+
+button {
+  border: 0;
+  border-radius: 15px;
+  padding: 15px 24px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+  margin: 7px;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.yes {
+  background: #ff4f81;
+  color: white;
+}
+
+.no {
+  background: #eee7eb;
+  color: #594c53;
+}
+
+.disabled {
+  opacity: .55;
+  cursor: default;
+  pointer-events: none;
+}
+
+.next {
+  background: #29202a;
+  color: white;
+}
+
+.next:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.back {
+  background: transparent;
+  color: #7a6871;
+  font-size: 14px;
+}
+
+input,
+select {
+  width: 100%;
+  border: 2px solid #eadce2;
+  border-radius: 14px;
+  padding: 15px;
+  font: inherit;
+  outline: none;
+  background: white;
+}
+
+input:focus,
+select:focus {
+  border-color: #ff8aaa;
+}
+
+.date-fields {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .date-fields select,
-.date-fields input{
-width:100%;
+.date-fields input {
+  width: 100%;
 }
 
-.other{display:none;margin-top:12px}
-.other.show{display:block}
-.error{color:#d72f5b;min-height:22px;font-size:14px}
-.summary{text-align:left;background:#fff5f8;border-radius:18px;padding:18px;margin:22px 0}
-.summary div{padding:8px 0;border-bottom:1px solid #f0dfe6}
-.summary div:last-child{border:0}
-.success{font-size:52px}
+.other {
+  display: none;
+  margin-top: 12px;
+}
 
-@media(max-width:500px){
-.card{padding:30px 18px}
-.choices{grid-template-columns:1fr}
-.choice.full{grid-column:auto}
-.date-fields{grid-template-columns:1fr 1fr}
-.date-fields input{grid-column:1/-1}
+.other.show {
+  display: block;
+}
+
+.error {
+  color: #d72f5b;
+  min-height: 22px;
+  font-size: 14px;
+}
+
+.summary {
+  text-align: left;
+  background: #fff5f8;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 22px 0;
+}
+
+.summary div {
+  padding: 8px 0;
+  border-bottom: 1px solid #f0dfe6;
+}
+
+.summary div:last-child {
+  border: 0;
+}
+
+.success {
+  font-size: 52px;
+}
+
+@media (max-width: 500px) {
+  .card {
+    padding: 30px 18px;
+  }
+
+  .choices {
+    grid-template-columns: 1fr;
+  }
+
+  .choice.full {
+    grid-column: auto;
+  }
+
+  .date-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .date-fields input {
+    grid-column: 1 / -1;
+  }
 }
 </style>
 </head>
@@ -70,36 +267,73 @@ width:100%;
 <main class="card">
 
 <section class="step active" id="step1">
+
 <div style="font-size:55px">💌</div>
+
 <h1>Wil je op date?</h1>
+
 <p>Ik heb een belangrijke vraag voor je... 👀</p>
+
 <button class="yes" onclick="yes()">JA ❤️</button>
+
 <button class="no" id="no" onclick="no()">NEE 😢</button>
+
 <p id="noMsg" class="error"></p>
+
 </section>
 
 
 <section class="step" id="step2">
+
 <div style="font-size:48px">❤️</div>
+
 <h2>Wat zullen we doen?</h2>
+
 <p>Kies maar wat jou het leukste lijkt 👀</p>
 
 <div class="choices">
-<button class="choice" onclick="activity('🍝 Etentje',this)">🍝 Etentje</button>
-<button class="choice" onclick="activity('🎳 Bowling',this)">🎳 Bowling</button>
-<button class="choice" onclick="activity('🍹 Een drankje',this)">🍹 Een drankje</button>
-<button class="choice" onclick="activity('🚶 Een wandeling',this)">🚶 Een wandeling</button>
-<button class="choice full" onclick="activity('✨ Iets anders',this)">✨ Iets anders</button>
+
+<button class="choice" onclick="activity('🍝 Etentje', this)">
+🍝 Etentje
+</button>
+
+<button class="choice" onclick="activity('🎳 Bowling', this)">
+🎳 Bowling
+</button>
+
+<button class="choice" onclick="activity('🍹 Een drankje', this)">
+🍹 Een drankje
+</button>
+
+<button class="choice" onclick="activity('🚶 Een wandeling', this)">
+🚶 Een wandeling
+</button>
+
+<button class="choice full" onclick="activity('✨ Iets anders', this)">
+✨ Iets anders
+</button>
+
 </div>
 
 <div class="other" id="other">
-<input id="otherText" placeholder="Wat had je zelf in gedachten?">
+
+<input
+id="otherText"
+placeholder="Wat had je zelf in gedachten?"
+>
+
 </div>
 
 <p id="actErr" class="error"></p>
 
-<button class="back" onclick="show(1)">← Terug</button>
-<button class="next" id="actNext" onclick="dateStep()" disabled>Verder →</button>
+<button class="back" onclick="show(1)">
+← Terug
+</button>
+
+<button class="next" id="actNext" onclick="dateStep()" disabled>
+Verder →
+</button>
+
 </section>
 
 
@@ -108,16 +342,23 @@ width:100%;
 <div style="font-size:48px">📅</div>
 
 <h2>Wanneer zullen we gaan?</h2>
+
 <p>Kies een dag die voor jou goed uitkomt.</p>
+
 
 <div class="date-fields">
 
 <select id="day">
+
 <option value="">Dag</option>
+
 </select>
 
+
 <select id="month">
+
 <option value="">Maand</option>
+
 <option value="1">Januari</option>
 <option value="2">Februari</option>
 <option value="3">Maart</option>
@@ -130,7 +371,9 @@ width:100%;
 <option value="10">Oktober</option>
 <option value="11">November</option>
 <option value="12">December</option>
+
 </select>
+
 
 <input
 id="year"
@@ -143,14 +386,22 @@ inputmode="numeric"
 
 </div>
 
+
 <p>En eventueel een uur:</p>
 
 <input type="time" id="time">
 
+
 <p id="dateErr" class="error"></p>
 
-<button class="back" onclick="show(2)">← Terug</button>
-<button class="next" onclick="summary()">Verder →</button>
+
+<button class="back" onclick="show(2)">
+← Terug
+</button>
+
+<button class="next" onclick="summary()">
+Verder →
+</button>
 
 </section>
 
@@ -162,14 +413,36 @@ inputmode="numeric"
 <h2>Alles ziet er goed uit!</h2>
 
 <div class="summary">
-<div><strong>Date:</strong> Ja ❤️</div>
-<div><strong>Activiteit:</strong> <span id="sAct"></span></div>
-<div><strong>Datum:</strong> <span id="sDate"></span></div>
-<div><strong>Tijd:</strong> <span id="sTime"></span></div>
+
+<div>
+<strong>Date:</strong> Ja ❤️
 </div>
 
-<button class="back" onclick="show(3)">← Aanpassen</button>
-<button class="yes" id="send" onclick="send()">Verstuur ❤️</button>
+<div>
+<strong>Activiteit:</strong>
+<span id="sAct"></span>
+</div>
+
+<div>
+<strong>Datum:</strong>
+<span id="sDate"></span>
+</div>
+
+<div>
+<strong>Tijd:</strong>
+<span id="sTime"></span>
+</div>
+
+</div>
+
+
+<button class="back" onclick="show(3)">
+← Aanpassen
+</button>
+
+<button class="yes" id="send" onclick="send()">
+Verstuur ❤️
+</button>
 
 <p id="sendErr" class="error"></p>
 
@@ -178,12 +451,17 @@ inputmode="numeric"
 
 <section class="step" id="step5">
 
-<div class="success">🥰</div>
+<div class="success">
+🥰
+</div>
 
 <h1>Verstuurd!</h1>
 
 <p>Ik heb je keuze ontvangen.</p>
-<p>Nu nog aftellen tot onze date... ❤️</p>
+
+<p>
+Nu nog aftellen tot onze date... ❤️
+</p>
 
 </section>
 
@@ -192,289 +470,406 @@ inputmode="numeric"
 
 <script>
 
-const MY_EMAIL="itsWillHD@gmail.com";
+const MY_EMAIL = "itsWillHD@gmail.com";
 
-let selected="";
+let selected = "";
 
 
 /* PAGINA'S */
 
-function show(n){
-document.querySelectorAll(".step").forEach(x=>x.classList.remove("active"));
-document.getElementById("step"+n).classList.add("active");
-window.scrollTo({top:0,behavior:"smooth"});
+function show(n) {
+
+  document
+    .querySelectorAll(".step")
+    .forEach(x => x.classList.remove("active"));
+
+  document
+    .getElementById("step" + n)
+    .classList.add("active");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
 }
 
 
 /* NEE KNOP */
 
-function no(){
-document.getElementById("noMsg").textContent="Dit antwoord is niet meer mogelijk 😌❤️";
-document.getElementById("no").textContent="NEE is geen optie 😌";
-document.getElementById("no").classList.add("disabled");
+function no() {
+
+  document.getElementById("noMsg").textContent =
+    "Dit antwoord is niet meer mogelijk 😌❤️";
+
+  document.getElementById("no").textContent =
+    "NEE is geen optie 😌";
+
+  document.getElementById("no").classList.add("disabled");
+
 }
 
 
 /* JA */
 
-function yes(){
-show(2);
+function yes() {
+
+  show(2);
+
 }
 
 
 /* ACTIVITEIT */
 
-function activity(a,b){
+function activity(a, b) {
 
-selected=a;
+  selected = a;
 
-document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));
+  document
+    .querySelectorAll(".choice")
+    .forEach(x => x.classList.remove("selected"));
 
-b.classList.add("selected");
+  b.classList.add("selected");
 
-document.getElementById("actNext").disabled=false;
+  document.getElementById("actNext").disabled = false;
 
-document.getElementById("actErr").textContent="";
+  document.getElementById("actErr").textContent = "";
 
-document.getElementById("other").classList.toggle("show",a==="✨ Iets anders");
+  document
+    .getElementById("other")
+    .classList.toggle("show", a === "✨ Iets anders");
 
-if(a!=="✨ Iets anders"){
-document.getElementById("otherText").value="";
-}
+  if (a !== "✨ Iets anders") {
 
-}
+    document.getElementById("otherText").value = "";
 
-
-/* DATUM INSTELLEN */
-
-function dateStep(){
-
-if(selected==="✨ Iets anders"&&!document.getElementById("otherText").value.trim()){
-document.getElementById("actErr").textContent="Vul even in wat je zelf in gedachten had ❤️";
-return;
-}
-
-show(3);
+  }
 
 }
 
 
-/* DAGEN INVULLEN */
+/* NAAR DATUM */
 
-const daySelect=document.getElementById("day");
+function dateStep() {
 
-for(let i=1;i<=31;i++){
+  if (
+    selected === "✨ Iets anders" &&
+    !document.getElementById("otherText").value.trim()
+  ) {
 
-let option=document.createElement("option");
+    document.getElementById("actErr").textContent =
+      "Vul even in wat je zelf in gedachten had ❤️";
 
-option.value=i;
+    return;
 
-option.textContent=i;
+  }
 
-daySelect.appendChild(option);
+  show(3);
+
+}
+
+
+/* DAGEN MAKEN */
+
+const daySelect = document.getElementById("day");
+
+for (let i = 1; i <= 31; i++) {
+
+  const option = document.createElement("option");
+
+  option.value = i;
+
+  option.textContent = i;
+
+  daySelect.appendChild(option);
 
 }
 
 
 /* DATUM MAKEN */
 
-function getDateValue(){
+function getDateValue() {
 
-let day=document.getElementById("day").value;
-let month=document.getElementById("month").value;
-let year=document.getElementById("year").value;
+  const day =
+    document.getElementById("day").value;
 
-if(!day || !month || !year){
-return null;
-}
+  const month =
+    document.getElementById("month").value;
 
-return `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+  const year =
+    document.getElementById("year").value;
+
+  if (!day || !month || !year) {
+
+    return null;
+
+  }
+
+  return (
+    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+  );
 
 }
 
 
 /* DATUM CONTROLEREN */
 
-function validDate(){
+function validDate() {
 
-let day=parseInt(document.getElementById("day").value);
-let month=parseInt(document.getElementById("month").value);
-let year=parseInt(document.getElementById("year").value);
+  const day =
+    parseInt(document.getElementById("day").value);
 
-if(!day || !month || !year){
-return false;
+  const month =
+    parseInt(document.getElementById("month").value);
+
+  const year =
+    parseInt(document.getElementById("year").value);
+
+  if (!day || !month || !year) {
+
+    return false;
+
+  }
+
+  if (year < 2026 || year > 2100) {
+
+    return false;
+
+  }
+
+  const date =
+    new Date(year, month - 1, day);
+
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
+
 }
 
-let date=new Date(year,month-1,day);
 
-return date.getFullYear()===year &&
-date.getMonth()===month-1 &&
-date.getDate()===day;
+/* DATUM FORMATTEREN */
 
-}
+function format(d) {
 
-
-/* DATUM WEERGEVEN */
-
-function format(d){
-
-return new Date(d+"T12:00:00").toLocaleDateString(
-"nl-BE",
-{
-weekday:"long",
-day:"numeric",
-month:"long",
-year:"numeric"
-}
-);
+  return new Date(
+    d + "T12:00:00"
+  ).toLocaleDateString(
+    "nl-BE",
+    {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }
+  );
 
 }
 
 
 /* SAMENVATTING */
 
-function summary(){
+function summary() {
 
-let dateErr=document.getElementById("dateErr");
+  const dateErr =
+    document.getElementById("dateErr");
 
-if(!validDate()){
+  if (!validDate()) {
 
-dateErr.textContent="Vul een geldige datum in ❤️";
+    dateErr.textContent =
+      "Vul een geldige datum in ❤️";
 
-return;
+    return;
 
-}
+  }
 
-let d=getDateValue();
+  const d = getDateValue();
 
-let selectedDate=new Date(d+"T12:00:00");
+  const selectedDate =
+    new Date(d + "T12:00:00");
 
-let today=new Date();
+  const today = new Date();
 
-today.setHours(0,0,0,0);
+  today.setHours(0, 0, 0, 0);
 
-if(selectedDate<today){
+  if (selectedDate < today) {
 
-dateErr.textContent="Je kan geen datum in het verleden kiezen ❤️";
+    dateErr.textContent =
+      "Je kan geen datum in het verleden kiezen ❤️";
 
-return;
+    return;
 
-}
+  }
 
-dateErr.textContent="";
-
-
-let a=selected==="✨ Iets anders"
-?selected+" - "+document.getElementById("otherText").value.trim()
-:selected;
-
-
-document.getElementById("sAct").textContent=a;
-
-document.getElementById("sDate").textContent=format(d);
-
-document.getElementById("sTime").textContent=
-document.getElementById("time").value||"Nog te bespreken";
+  dateErr.textContent = "";
 
 
-show(4);
+  const a =
+    selected === "✨ Iets anders"
+      ? selected +
+        " - " +
+        document
+          .getElementById("otherText")
+          .value
+          .trim()
+      : selected;
+
+
+  document.getElementById("sAct").textContent =
+    a;
+
+  document.getElementById("sDate").textContent =
+    format(d);
+
+  document.getElementById("sTime").textContent =
+    document.getElementById("time").value ||
+    "Nog te bespreken";
+
+
+  show(4);
 
 }
 
 
 /* VERSTUREN */
 
-async function send(){
+async function send() {
 
-let btn=document.getElementById("send");
+  const btn =
+    document.getElementById("send");
 
-let err=document.getElementById("sendErr");
+  const err =
+    document.getElementById("sendErr");
 
-let d=getDateValue();
+  const d =
+    getDateValue();
 
-let t=document.getElementById("time").value||"Nog te bespreken";
+  const t =
+    document.getElementById("time").value ||
+    "Nog te bespreken";
 
-let a=selected==="✨ Iets anders"
-?selected+" - "+document.getElementById("otherText").value.trim()
-:selected;
-
-
-btn.disabled=true;
-
-btn.textContent="Versturen... ❤️";
-
-err.textContent="";
-
-
-let f=new FormData();
-
-f.append("Date","JA ❤️");
-
-f.append("Activiteit",a);
-
-f.append("Datum",format(d));
-
-f.append("Tijd",t);
-
-f.append("_subject","❤️ Ze wil op date!");
-
-f.append("_captcha","false");
-
-f.append("_template","table");
+  const a =
+    selected === "✨ Iets anders"
+      ? selected +
+        " - " +
+        document
+          .getElementById("otherText")
+          .value
+          .trim()
+      : selected;
 
 
-try{
+  btn.disabled = true;
 
-let r=await fetch(
-"https://formsubmit.co/ajax/"+MY_EMAIL,
-{
-method:"POST",
-headers:{Accept:"application/json"},
-body:f
-}
-);
+  btn.textContent =
+    "Versturen... ❤️";
 
-if(!r.ok)throw new Error("send failed");
+  err.textContent = "";
 
-show(5);
 
-}
-catch(e){
+  const f = new FormData();
 
-err.textContent="De mail kon niet verstuurd worden. Controleer of je FormSubmit eerst hebt geactiveerd via de bevestigingsmail.";
+  f.append("Date", "JA ❤️");
 
-btn.disabled=false;
+  f.append("Activiteit", a);
 
-btn.textContent="Verstuur ❤️";
+  f.append("Datum", format(d));
 
-}
+  f.append("Tijd", t);
+
+  f.append(
+    "_subject",
+    "❤️ Ze wil op date!"
+  );
+
+  f.append(
+    "_captcha",
+    "false"
+  );
+
+  f.append(
+    "_template",
+    "table"
+  );
+
+
+  try {
+
+    const r = await fetch(
+      "https://formsubmit.co/ajax/" + MY_EMAIL,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json"
+        },
+        body: f
+      }
+    );
+
+
+    if (!r.ok) {
+
+      throw new Error("send failed");
+
+    }
+
+
+    show(5);
+
+
+  } catch (e) {
+
+    err.textContent =
+      "De mail kon niet verstuurd worden. Controleer of je FormSubmit eerst hebt geactiveerd via de bevestigingsmail.";
+
+    btn.disabled = false;
+
+    btn.textContent =
+      "Verstuur ❤️";
+
+  }
 
 }
 
 
 /* HARTJES */
 
-function heart(){
+function heart() {
 
-let x=document.createElement("div");
+  const x =
+    document.createElement("div");
 
-x.className="heart";
+  x.className = "heart";
 
-x.textContent=["❤️","💕","💗","💖"][Math.floor(Math.random()*4)];
+  x.textContent =
+    ["❤️", "💕", "💗", "💖"][
+      Math.floor(Math.random() * 4)
+    ];
 
-x.style.left=Math.random()*100+"%";
+  x.style.left =
+    Math.random() * 100 + "%";
 
-x.style.animationDuration=5+Math.random()*5+"s";
+  x.style.animationDuration =
+    5 + Math.random() * 5 + "s";
 
-x.style.fontSize=15+Math.random()*18+"px";
+  x.style.fontSize =
+    15 + Math.random() * 18 + "px";
 
-document.getElementById("hearts").appendChild(x);
+  document
+    .getElementById("hearts")
+    .appendChild(x);
 
-setTimeout(()=>x.remove(),10000);
+
+  setTimeout(
+    () => x.remove(),
+    10000
+  );
 
 }
 
-setInterval(heart,900);
+
+setInterval(heart, 900);
 
 </script>
 
