@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wil je op date? ❤️</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:linear-gradient(135deg,#fff0f5,#ffe1eb,#fff7fa);display:flex;justify-content:center;align-items:center;color:#29202a;overflow-x:hidden}.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}.heart{position:absolute;bottom:-40px;animation:up linear forwards;opacity:.7}@keyframes up{from{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.7}to{transform:translateY(-110vh) rotate(360deg);opacity:0}}.card{position:relative;z-index:2;width:min(92%,600px);background:#fffffff2;border-radius:28px;padding:38px 30px;box-shadow:0 20px 60px #782d4d2e;text-align:center;margin:25px 0}.step{display:none}.step.active{display:block;animation:fade .4s ease}@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}h1{font-size:clamp(30px,7vw,48px);margin:5px 0 12px}h2{font-size:28px;margin:5px 0 12px}p{color:#6d5a64;line-height:1.6}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:25px 0}.choice{margin:0;background:#fff3f7;border:2px solid transparent;color:#3e3037;min-height:72px}.choice.selected{border-color:#ff4f81;background:#ffe4ed}.choice.full{grid-column:1/-1}button{border:0;border-radius:15px;padding:15px 24px;font-size:17px;font-weight:bold;cursor:pointer;transition:.2s;margin:7px}button:hover{transform:translateY(-2px) scale(1.02)}.yes{background:#ff4f81;color:white}.no{background:#eee7eb;color:#594c53}.disabled{opacity:.55;cursor:default;pointer-events:none}.next{background:#29202a;color:white}.next:disabled{opacity:.35;cursor:not-allowed}.back{background:transparent;color:#7a6871;font-size:14px}input{width:100%;border:2px solid #eadce2;border-radius:14px;padding:15px;font:inherit;outline:none;background:white}input:focus{border-color:#ff8aaa}.other{display:none;margin-top:12px}.other.show{display:block}.error{color:#d72f5b;min-height:22px;font-size:14px}.summary{text-align:left;background:#fff5f8;border-radius:18px;padding:18px;margin:22px 0}.summary div{padding:8px 0;border-bottom:1px solid #f0dfe6}.summary div:last-child{border:0}.success{font-size:52px}@media(max-width:500px){.card{padding:30px 18px}.choices{grid-template-columns:1fr}.choice.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="hearts" id="hearts"></div>
+<main class="card">
+
+<section class="step active" id="step1">
+<div style="font-size:55px">💌</div>
+<h1>Wil je op date?</h1>
+<p>Ik heb een belangrijke vraag voor je... 👀</p>
+<button class="yes" onclick="yes()">JA ❤️</button>
+<button class="no" id="no" onclick="no()">NEE 😢</button>
+<p id="noMsg" class="error"></p>
+</section>
+
+<section class="step" id="step2">
+<div style="font-size:48px">❤️</div>
+<h2>Wat zullen we doen?</h2>
+<p>Kies maar wat jou het leukste lijkt 👀</p>
+<div class="choices">
+<button class="choice" onclick="activity('🍝 Etentje',this)">🍝 Etentje</button>
+<button class="choice" onclick="activity('🎳 Bowling',this)">🎳 Bowling</button>
+<button class="choice" onclick="activity('🍹 Een drankje',this)">🍹 Een drankje</button>
+<button class="choice" onclick="activity('🚶 Een wandeling',this)">🚶 Een wandeling</button>
+<button class="choice full" onclick="activity('✨ Iets anders',this)">✨ Iets anders</button>
+</div>
+<div class="other" id="other"><input id="otherText" placeholder="Wat had je zelf in gedachten?"></div>
+<p id="actErr" class="error"></p>
+<button class="back" onclick="show(1)">← Terug</button>
+<button class="next" id="actNext" onclick="dateStep()" disabled>Verder →</button>
+</section>
+
+<section class="step" id="step3">
+<div style="font-size:48px">📅</div>
+<h2>Wanneer zullen we gaan?</h2>
+<p>Kies een dag die voor jou goed uitkomt.</p>
+<input type="date" id="date">
+<p>En eventueel een uur:</p>
+<input type="time" id="time">
+<p id="dateErr" class="error"></p>
+<button class="back" onclick="show(2)">← Terug</button>
+<button class="next" onclick="summary()">Verder →</button>
+</section>
+
+<section class="step" id="step4">
+<div style="font-size:48px">💌</div>
+<h2>Alles ziet er goed uit!</h2>
+<div class="summary">
+<div><strong>Date:</strong> Ja ❤️</div>
+<div><strong>Activiteit:</strong> <span id="sAct"></span></div>
+<div><strong>Datum:</strong> <span id="sDate"></span></div>
+<div><strong>Tijd:</strong> <span id="sTime"></span></div>
+</div>
+<button class="back" onclick="show(3)">← Aanpassen</button>
+<button class="yes" id="send" onclick="send()">Verstuur ❤️</button>
+<p id="sendErr" class="error"></p>
+</section>
+
+<section class="step" id="step5">
+<div class="success">🥰</div>
+<h1>Verstuurd!</h1>
+<p>Ik heb je keuze ontvangen.</p>
+<p>Nu nog aftellen tot onze date... ❤️</p>
+</section>
+
+</main>
+<script>
+const MY_EMAIL="itsWillHD@gmail.com";
+let selected="";
+
+function show(n){document.querySelectorAll(".step").forEach(x=>x.classList.remove("active"));document.getElementById("step"+n).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
+function no(){document.getElementById("noMsg").textContent="Dit antwoord is niet meer mogelijk 😌❤️";document.getElementById("no").textContent="NEE is geen optie 😌";document.getElementById("no").classList.add("disabled")}
+function yes(){show(2)}
+function activity(a,b){selected=a;document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");document.getElementById("actNext").disabled=false;document.getElementById("actErr").textContent="";document.getElementById("other").classList.toggle("show",a==="✨ Iets anders");if(a!=="✨ Iets anders")document.getElementById("otherText").value=""}
+function dateStep(){if(selected==="✨ Iets anders"&&!document.getElementById("otherText").value.trim()){document.getElementById("actErr").textContent="Vul even in wat je zelf in gedachten had ❤️";return}show(3);let d=new Date();document.getElementById("date").min=d.toISOString().split("T")[0]}
+function format(d){return new Date(d+"T12:00:00").toLocaleDateString("nl-BE",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+function summary(){let d=document.getElementById("date").value;if(!d){document.getElementById("dateErr").textContent="Kies eerst een datum ❤️";return}document.getElementById("dateErr").textContent="";let a=selected==="✨ Iets anders"?selected+" - "+document.getElementById("otherText").value.trim():selected;document.getElementById("sAct").textContent=a;document.getElementById("sDate").textContent=format(d);document.getElementById("sTime").textContent=document.getElementById("time").value||"Nog te bespreken";show(4)}
+
+async function send(){
+let btn=document.getElementById("send"),err=document.getElementById("sendErr"),d=document.getElementById("date").value,t=document.getElementById("time").value||"Nog te bespreken",a=selected==="✨ Iets anders"?selected+" - "+document.getElementById("otherText").value.trim():selected;
+btn.disabled=true;btn.textContent="Versturen... ❤️";err.textContent="";
+let f=new FormData();f.append("Date","JA ❤️");f.append("Activiteit",a);f.append("Datum",format(d));f.append("Tijd",t);f.append("_subject","❤️ Ze wil op date!");f.append("_captcha","false");f.append("_template","table");
+try{
+let r=await fetch("https://formsubmit.co/ajax/"+MY_EMAIL,{method:"POST",headers:{Accept:"application/json"},body:f});
+if(!r.ok)throw new Error("send failed");
+show(5);
+}catch(e){err.textContent="De mail kon niet verstuurd worden. Controleer of je FormSubmit eerst hebt geactiveerd via de bevestigingsmail.";btn.disabled=false;btn.textContent="Verstuur ❤️"}
+}
+function heart(){let x=document.createElement("div");x.className="heart";x.textContent=["❤️","💕","💗","💖"][Math.floor(Math.random()*4)];x.style.left=Math.random()*100+"%";x.style.animationDuration=5+Math.random()*5+"s";x.style.fontSize=15+Math.random()*18+"px";document.getElementById("hearts").appendChild(x);setTimeout(()=>x.remove(),10000)}
+setInterval(heart,900);
+</script>
+</body>
+</html>
