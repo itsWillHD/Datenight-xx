@@ -1,5 +1,5 @@
-
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
@@ -7,257 +7,259 @@
 <title>Wil je op date? ❤️</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+margin:0;
+min-height:100vh;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#fff0f5,#ffe1eb,#fff7fa);
+display:flex;
+justify-content:center;
+align-items:center;
+color:#29202a;
+overflow-x:hidden
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #fff0f5, #ffe1eb, #fff7fa);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #29202a;
-  overflow-x: hidden;
+.hearts{
+position:fixed;
+inset:0;
+pointer-events:none;
+overflow:hidden
 }
 
-.hearts {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
+.heart{
+position:absolute;
+bottom:-40px;
+animation:up linear forwards;
+opacity:.7
 }
 
-.heart {
-  position: absolute;
-  bottom: -40px;
-  animation: up linear forwards;
-  opacity: .7;
+@keyframes up{
+from{
+transform:translateY(0) rotate(0);
+opacity:0
+}
+15%{
+opacity:.7
+}
+to{
+transform:translateY(-110vh) rotate(360deg);
+opacity:0
+}
 }
 
-@keyframes up {
-  from {
-    transform: translateY(0) rotate(0);
-    opacity: 0;
-  }
-
-  15% {
-    opacity: .7;
-  }
-
-  to {
-    transform: translateY(-110vh) rotate(360deg);
-    opacity: 0;
-  }
+.card{
+position:relative;
+z-index:2;
+width:min(92%,600px);
+background:#fffffff2;
+border-radius:28px;
+padding:38px 30px;
+box-shadow:0 20px 60px #782d4d2e;
+text-align:center;
+margin:25px 0
 }
 
-.card {
-  position: relative;
-  z-index: 2;
-  width: min(92%, 600px);
-  background: #fffffff2;
-  border-radius: 28px;
-  padding: 38px 30px;
-  box-shadow: 0 20px 60px #782d4d2e;
-  text-align: center;
-  margin: 25px 0;
+.step{
+display:none
 }
 
-.step {
-  display: none;
+.step.active{
+display:block;
+animation:fade .4s ease
 }
 
-.step.active {
-  display: block;
-  animation: fade .4s ease;
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(12px)
+}
+to{
+opacity:1;
+transform:translateY(0)
+}
 }
 
-@keyframes fade {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+h1{
+font-size:clamp(30px,7vw,48px);
+margin:5px 0 12px
 }
 
-h1 {
-  font-size: clamp(30px, 7vw, 48px);
-  margin: 5px 0 12px;
+h2{
+font-size:28px;
+margin:5px 0 12px
 }
 
-h2 {
-  font-size: 28px;
-  margin: 5px 0 12px;
+p{
+color:#6d5a64;
+line-height:1.6
 }
 
-p {
-  color: #6d5a64;
-  line-height: 1.6;
+.choices{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin:25px 0
 }
 
-.choices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 25px 0;
+.choice{
+margin:0;
+background:#fff3f7;
+border:2px solid transparent;
+color:#3e3037;
+min-height:72px
 }
 
-.choice {
-  margin: 0;
-  background: #fff3f7;
-  border: 2px solid transparent;
-  color: #3e3037;
-  min-height: 72px;
+.choice.selected{
+border-color:#ff4f81;
+background:#ffe4ed
 }
 
-.choice.selected {
-  border-color: #ff4f81;
-  background: #ffe4ed;
+.choice.full{
+grid-column:1/-1
 }
 
-.choice.full {
-  grid-column: 1 / -1;
+button{
+border:0;
+border-radius:15px;
+padding:15px 24px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+margin:7px
 }
 
-button {
-  border: 0;
-  border-radius: 15px;
-  padding: 15px 24px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: .2s;
-  margin: 7px;
+button:hover{
+transform:translateY(-2px) scale(1.02)
 }
 
-button:hover {
-  transform: translateY(-2px) scale(1.02);
+.yes{
+background:#ff4f81;
+color:white
 }
 
-.yes {
-  background: #ff4f81;
-  color: white;
+.no{
+background:#eee7eb;
+color:#594c53
 }
 
-.no {
-  background: #eee7eb;
-  color: #594c53;
+.disabled{
+opacity:.55;
+cursor:default;
+pointer-events:none
 }
 
-.disabled {
-  opacity: .55;
-  cursor: default;
-  pointer-events: none;
+.next{
+background:#29202a;
+color:white
 }
 
-.next {
-  background: #29202a;
-  color: white;
+.next:disabled{
+opacity:.35;
+cursor:not-allowed
 }
 
-.next:disabled {
-  opacity: .35;
-  cursor: not-allowed;
-}
-
-.back {
-  background: transparent;
-  color: #7a6871;
-  font-size: 14px;
+.back{
+background:transparent;
+color:#7a6871;
+font-size:14px
 }
 
 input,
-select {
-  width: 100%;
-  border: 2px solid #eadce2;
-  border-radius: 14px;
-  padding: 15px;
-  font: inherit;
-  outline: none;
-  background: white;
+select{
+width:100%;
+border:2px solid #eadce2;
+border-radius:14px;
+padding:15px;
+font:inherit;
+outline:none;
+background:white
 }
 
 input:focus,
-select:focus {
-  border-color: #ff8aaa;
+select:focus{
+border-color:#ff8aaa
 }
 
-.date-fields {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
-  gap: 10px;
-  margin: 20px 0;
+.name-input{
+margin:22px 0 8px
+}
+
+.date-fields{
+display:grid;
+grid-template-columns:1fr 1.5fr 1fr;
+gap:10px;
+margin:20px 0
 }
 
 .date-fields select,
-.date-fields input {
-  width: 100%;
+.date-fields input{
+width:100%
 }
 
-.other {
-  display: none;
-  margin-top: 12px;
+.other{
+display:none;
+margin-top:12px
 }
 
-.other.show {
-  display: block;
+.other.show{
+display:block
 }
 
-.error {
-  color: #d72f5b;
-  min-height: 22px;
-  font-size: 14px;
+.error{
+color:#d72f5b;
+min-height:22px;
+font-size:14px
 }
 
-.summary {
-  text-align: left;
-  background: #fff5f8;
-  border-radius: 18px;
-  padding: 18px;
-  margin: 22px 0;
+.summary{
+text-align:left;
+background:#fff5f8;
+border-radius:18px;
+padding:18px;
+margin:22px 0
 }
 
-.summary div {
-  padding: 8px 0;
-  border-bottom: 1px solid #f0dfe6;
+.summary div{
+padding:8px 0;
+border-bottom:1px solid #f0dfe6
 }
 
-.summary div:last-child {
-  border: 0;
+.summary div:last-child{
+border:0
 }
 
-.success {
-  font-size: 52px;
+.success{
+font-size:52px
 }
 
-@media (max-width: 500px) {
-  .card {
-    padding: 30px 18px;
-  }
+@media(max-width:500px){
 
-  .choices {
-    grid-template-columns: 1fr;
-  }
+.card{
+padding:30px 18px
+}
 
-  .choice.full {
-    grid-column: auto;
-  }
+.choices{
+grid-template-columns:1fr
+}
 
-  .date-fields {
-    grid-template-columns: 1fr 1fr;
-  }
+.choice.full{
+grid-column:auto
+}
 
-  .date-fields input {
-    grid-column: 1 / -1;
-  }
+.date-fields{
+grid-template-columns:1fr 1fr
+}
+
+.date-fields input{
+grid-column:1/-1
+}
+
 }
 </style>
+
 </head>
 
 <body>
@@ -266,50 +268,101 @@ select:focus {
 
 <main class="card">
 
+<!-- STAP 1 -->
+
 <section class="step active" id="step1">
 
 <div style="font-size:55px">💌</div>
 
 <h1>Wil je op date?</h1>
 
-<p>Ik heb een belangrijke vraag voor je... 👀</p>
+<p>
+Ik heb een belangrijke vraag voor je... 👀
+</p>
 
-<button class="yes" onclick="yes()">JA ❤️</button>
+<button class="yes" onclick="yes()">
+JA ❤️
+</button>
 
-<button class="no" id="no" onclick="no()">NEE 😢</button>
+<button class="no" id="no" onclick="no()">
+NEE 😢
+</button>
 
 <p id="noMsg" class="error"></p>
 
 </section>
 
+<!-- STAP 2, NAAM -->
 
 <section class="step" id="step2">
 
+<div style="font-size:55px">🥰</div>
+
+<h2>Eerst even iets kleins...</h2>
+
+<p>
+Ik wil natuurlijk wel weten wie er zo enthousiast "JA" zei 👀❤️
+</p>
+
+<p>
+<strong>Hoe mag ik je noemen?</strong>
+</p>
+
+<input
+id="name"
+class="name-input"
+type="text"
+placeholder="Jouw naam 💕"
+maxlength="40"
+autocomplete="name"
+
+>
+
+<p id="nameErr" class="error"></p>
+
+<button class="back" onclick="show(1)">
+← Terug
+</button>
+
+<button class="next" onclick="nameStep()">
+Verder →
+</button>
+
+</section>
+
+<!-- STAP 3, ACTIVITEIT -->
+
+<section class="step" id="step3">
+
 <div style="font-size:48px">❤️</div>
 
-<h2>Wat zullen we doen?</h2>
+<h2>
+Leuk je te ontmoeten, <span id="nameGreeting"></span>!
+</h2>
 
-<p>Kies maar wat jou het leukste lijkt 👀</p>
+<p>
+Wat zullen we doen? 👀
+</p>
 
 <div class="choices">
 
-<button class="choice" onclick="activity('🍝 Etentje', this)">
+<button class="choice" onclick="activity('🍝 Etentje',this)">
 🍝 Etentje
 </button>
 
-<button class="choice" onclick="activity('🎳 Bowling', this)">
+<button class="choice" onclick="activity('🎳 Bowling',this)">
 🎳 Bowling
 </button>
 
-<button class="choice" onclick="activity('🍹 Een drankje', this)">
+<button class="choice" onclick="activity('🍹 Een drankje',this)">
 🍹 Een drankje
 </button>
 
-<button class="choice" onclick="activity('🚶 Een wandeling', this)">
+<button class="choice" onclick="activity('🚶 Een wandeling',this)">
 🚶 Een wandeling
 </button>
 
-<button class="choice full" onclick="activity('✨ Iets anders', this)">
+<button class="choice full" onclick="activity('✨ Iets anders',this)">
 ✨ Iets anders
 </button>
 
@@ -320,40 +373,46 @@ select:focus {
 <input
 id="otherText"
 placeholder="Wat had je zelf in gedachten?"
+
 >
 
 </div>
 
 <p id="actErr" class="error"></p>
 
-<button class="back" onclick="show(1)">
+<button class="back" onclick="show(2)">
 ← Terug
 </button>
 
-<button class="next" id="actNext" onclick="dateStep()" disabled>
-Verder →
-</button>
+<button
+class="next"
+id="actNext"
+onclick="dateStep()"
+disabled
+
+>
+
+Verder → </button>
 
 </section>
 
+<!-- STAP 4, DATUM -->
 
-<section class="step" id="step3">
+<section class="step" id="step4">
 
 <div style="font-size:48px">📅</div>
 
 <h2>Wanneer zullen we gaan?</h2>
 
-<p>Kies een dag die voor jou goed uitkomt.</p>
-
+<p>
+Kies een dag die voor jou goed uitkomt.
+</p>
 
 <div class="date-fields">
 
 <select id="day">
-
 <option value="">Dag</option>
-
 </select>
-
 
 <select id="month">
 
@@ -374,7 +433,6 @@ Verder →
 
 </select>
 
-
 <input
 id="year"
 type="number"
@@ -382,20 +440,20 @@ placeholder="Jaar"
 min="2026"
 max="2100"
 inputmode="numeric"
+
 >
 
 </div>
 
-
-<p>En eventueel een uur:</p>
+<p>
+En eventueel een uur:
+</p>
 
 <input type="time" id="time">
 
-
 <p id="dateErr" class="error"></p>
 
-
-<button class="back" onclick="show(2)">
+<button class="back" onclick="show(3)">
 ← Terug
 </button>
 
@@ -405,17 +463,26 @@ Verder →
 
 </section>
 
+<!-- STAP 5, SAMENVATTING -->
 
-<section class="step" id="step4">
+<section class="step" id="step5">
 
 <div style="font-size:48px">💌</div>
 
-<h2>Alles ziet er goed uit!</h2>
+<h2>
+Alles ziet er goed uit, <span id="summaryName"></span>!
+</h2>
 
 <div class="summary">
 
 <div>
-<strong>Date:</strong> Ja ❤️
+<strong>Naam:</strong>
+<span id="sName"></span>
+</div>
+
+<div>
+<strong>Date:</strong>
+Ja ❤️
 </div>
 
 <div>
@@ -435,8 +502,7 @@ Verder →
 
 </div>
 
-
-<button class="back" onclick="show(3)">
+<button class="back" onclick="show(4)">
 ← Aanpassen
 </button>
 
@@ -448,8 +514,9 @@ Verstuur ❤️
 
 </section>
 
+<!-- STAP 6 -->
 
-<section class="step" id="step5">
+<section class="step" id="step6">
 
 <div class="success">
 🥰
@@ -457,7 +524,13 @@ Verstuur ❤️
 
 <h1>Verstuurd!</h1>
 
-<p>Ik heb je keuze ontvangen.</p>
+<p>
+Dankjewel, <span id="finalName"></span> ❤️
+</p>
+
+<p>
+Ik heb je keuze ontvangen.
+</p>
 
 <p>
 Nu nog aftellen tot onze date... ❤️
@@ -467,412 +540,468 @@ Nu nog aftellen tot onze date... ❤️
 
 </main>
 
-
 <script>
 
 const MY_EMAIL = "itsWillHD@gmail.com";
 
 let selected = "";
+let userName = "";
 
 
 /* PAGINA'S */
 
-function show(n) {
+function show(n){
 
-  document
-    .querySelectorAll(".step")
-    .forEach(x => x.classList.remove("active"));
+document
+.querySelectorAll(".step")
+.forEach(x => x.classList.remove("active"));
 
-  document
-    .getElementById("step" + n)
-    .classList.add("active");
+document
+.getElementById("step" + n)
+.classList.add("active");
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
 
-/* NEE KNOP */
+/* NEE */
 
-function no() {
+function no(){
 
-  document.getElementById("noMsg").textContent =
-    "Dit antwoord is niet meer mogelijk 😌❤️";
+document.getElementById("noMsg").textContent =
+"Dit antwoord is niet meer mogelijk 😌❤️";
 
-  document.getElementById("no").textContent =
-    "NEE is geen optie 😌";
+document.getElementById("no").textContent =
+"NEE is geen optie 😌";
 
-  document.getElementById("no").classList.add("disabled");
+document.getElementById("no").classList.add("disabled");
 
 }
 
 
 /* JA */
 
-function yes() {
+function yes(){
 
-  show(2);
+show(2);
+
+}
+
+
+/* NAAM CONTROLEREN */
+
+function nameStep(){
+
+const nameInput =
+document.getElementById("name");
+
+const nameErr =
+document.getElementById("nameErr");
+
+userName =
+nameInput.value.trim();
+
+if(!userName){
+
+nameErr.textContent =
+"Vul even je naam in, dan weet ik wie er op date wil ❤️";
+
+return;
+
+}
+
+nameErr.textContent = "";
+
+document.getElementById("nameGreeting").textContent =
+userName;
+
+show(3);
 
 }
 
 
 /* ACTIVITEIT */
 
-function activity(a, b) {
+function activity(a,b){
 
-  selected = a;
+selected = a;
 
-  document
-    .querySelectorAll(".choice")
-    .forEach(x => x.classList.remove("selected"));
+document
+.querySelectorAll(".choice")
+.forEach(x => x.classList.remove("selected"));
 
-  b.classList.add("selected");
+b.classList.add("selected");
 
-  document.getElementById("actNext").disabled = false;
+document.getElementById("actNext").disabled = false;
 
-  document.getElementById("actErr").textContent = "";
+document.getElementById("actErr").textContent = "";
 
-  document
-    .getElementById("other")
-    .classList.toggle("show", a === "✨ Iets anders");
+document
+.getElementById("other")
+.classList.toggle(
+"show",
+a === "✨ Iets anders"
+);
 
-  if (a !== "✨ Iets anders") {
+if(a !== "✨ Iets anders"){
 
-    document.getElementById("otherText").value = "";
+document.getElementById("otherText").value = "";
 
-  }
+}
 
 }
 
 
 /* NAAR DATUM */
 
-function dateStep() {
+function dateStep(){
 
-  if (
-    selected === "✨ Iets anders" &&
-    !document.getElementById("otherText").value.trim()
-  ) {
+if(
+selected === "✨ Iets anders" &&
+!document.getElementById("otherText").value.trim()
+){
 
-    document.getElementById("actErr").textContent =
-      "Vul even in wat je zelf in gedachten had ❤️";
+document.getElementById("actErr").textContent =
+"Vul even in wat je zelf in gedachten had ❤️";
 
-    return;
+return;
 
-  }
+}
 
-  show(3);
+show(4);
 
 }
 
 
 /* DAGEN MAKEN */
 
-const daySelect = document.getElementById("day");
+const daySelect =
+document.getElementById("day");
 
-for (let i = 1; i <= 31; i++) {
+for(let i = 1; i <= 31; i++){
 
-  const option = document.createElement("option");
+const option =
+document.createElement("option");
 
-  option.value = i;
+option.value = i;
 
-  option.textContent = i;
+option.textContent = i;
 
-  daySelect.appendChild(option);
+daySelect.appendChild(option);
 
 }
 
 
 /* DATUM MAKEN */
 
-function getDateValue() {
+function getDateValue(){
 
-  const day =
-    document.getElementById("day").value;
+const day =
+document.getElementById("day").value;
 
-  const month =
-    document.getElementById("month").value;
+const month =
+document.getElementById("month").value;
 
-  const year =
-    document.getElementById("year").value;
+const year =
+document.getElementById("year").value;
 
-  if (!day || !month || !year) {
+if(!day || !month || !year){
 
-    return null;
+return null;
 
-  }
+}
 
-  return (
-    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-  );
+return `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
 
 }
 
 
 /* DATUM CONTROLEREN */
 
-function validDate() {
+function validDate(){
 
-  const day =
-    parseInt(document.getElementById("day").value);
+const day =
+parseInt(document.getElementById("day").value);
 
-  const month =
-    parseInt(document.getElementById("month").value);
+const month =
+parseInt(document.getElementById("month").value);
 
-  const year =
-    parseInt(document.getElementById("year").value);
+const year =
+parseInt(document.getElementById("year").value);
 
-  if (!day || !month || !year) {
+if(!day || !month || !year){
 
-    return false;
+return false;
 
-  }
+}
 
-  if (year < 2026 || year > 2100) {
+if(year < 2026 || year > 2100){
 
-    return false;
+return false;
 
-  }
+}
 
-  const date =
-    new Date(year, month - 1, day);
+const date =
+new Date(year,month-1,day);
 
-  return (
-    date.getFullYear() === year &&
-    date.getMonth() === month - 1 &&
-    date.getDate() === day
-  );
+return (
+date.getFullYear() === year &&
+date.getMonth() === month-1 &&
+date.getDate() === day
+);
 
 }
 
 
 /* DATUM FORMATTEREN */
 
-function format(d) {
+function format(d){
 
-  return new Date(
-    d + "T12:00:00"
-  ).toLocaleDateString(
-    "nl-BE",
-    {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    }
-  );
+return new Date(
+d + "T12:00:00"
+).toLocaleDateString(
+"nl-BE",
+{
+weekday:"long",
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+);
 
 }
 
 
 /* SAMENVATTING */
 
-function summary() {
+function summary(){
 
-  const dateErr =
-    document.getElementById("dateErr");
+const dateErr =
+document.getElementById("dateErr");
 
-  if (!validDate()) {
+if(!validDate()){
 
-    dateErr.textContent =
-      "Vul een geldige datum in ❤️";
+dateErr.textContent =
+"Vul een geldige datum in ❤️";
 
-    return;
+return;
 
-  }
+}
 
-  const d = getDateValue();
+const d =
+getDateValue();
 
-  const selectedDate =
-    new Date(d + "T12:00:00");
+const selectedDate =
+new Date(d + "T12:00:00");
 
-  const today = new Date();
+const today =
+new Date();
 
-  today.setHours(0, 0, 0, 0);
+today.setHours(0,0,0,0);
 
-  if (selectedDate < today) {
+if(selectedDate < today){
 
-    dateErr.textContent =
-      "Je kan geen datum in het verleden kiezen ❤️";
+dateErr.textContent =
+"Je kan geen datum in het verleden kiezen ❤️";
 
-    return;
+return;
 
-  }
+}
 
-  dateErr.textContent = "";
-
-
-  const a =
-    selected === "✨ Iets anders"
-      ? selected +
-        " - " +
-        document
-          .getElementById("otherText")
-          .value
-          .trim()
-      : selected;
+dateErr.textContent = "";
 
 
-  document.getElementById("sAct").textContent =
-    a;
-
-  document.getElementById("sDate").textContent =
-    format(d);
-
-  document.getElementById("sTime").textContent =
-    document.getElementById("time").value ||
-    "Nog te bespreken";
+const a =
+selected === "✨ Iets anders"
+? selected + " - " +
+document.getElementById("otherText").value.trim()
+: selected;
 
 
-  show(4);
+document.getElementById("sName").textContent =
+userName;
+
+document.getElementById("summaryName").textContent =
+userName;
+
+document.getElementById("sAct").textContent =
+a;
+
+document.getElementById("sDate").textContent =
+format(d);
+
+document.getElementById("sTime").textContent =
+document.getElementById("time").value ||
+"Nog te bespreken";
+
+
+show(5);
 
 }
 
 
 /* VERSTUREN */
 
-async function send() {
+async function send(){
 
-  const btn =
-    document.getElementById("send");
+const btn =
+document.getElementById("send");
 
-  const err =
-    document.getElementById("sendErr");
+const err =
+document.getElementById("sendErr");
 
-  const d =
-    getDateValue();
+const d =
+getDateValue();
 
-  const t =
-    document.getElementById("time").value ||
-    "Nog te bespreken";
+const t =
+document.getElementById("time").value ||
+"Nog te bespreken";
 
-  const a =
-    selected === "✨ Iets anders"
-      ? selected +
-        " - " +
-        document
-          .getElementById("otherText")
-          .value
-          .trim()
-      : selected;
+const a =
+selected === "✨ Iets anders"
+? selected + " - " +
+document.getElementById("otherText").value.trim()
+: selected;
 
 
-  btn.disabled = true;
+btn.disabled = true;
 
-  btn.textContent =
-    "Versturen... ❤️";
+btn.textContent =
+"Versturen... ❤️";
 
-  err.textContent = "";
-
-
-  const f = new FormData();
-
-  f.append("Date", "JA ❤️");
-
-  f.append("Activiteit", a);
-
-  f.append("Datum", format(d));
-
-  f.append("Tijd", t);
-
-  f.append(
-    "_subject",
-    "❤️ Ze wil op date!"
-  );
-
-  f.append(
-    "_captcha",
-    "false"
-  );
-
-  f.append(
-    "_template",
-    "table"
-  );
+err.textContent = "";
 
 
-  try {
-
-    const r = await fetch(
-      "https://formsubmit.co/ajax/" + MY_EMAIL,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json"
-        },
-        body: f
-      }
-    );
+const f =
+new FormData();
 
 
-    if (!r.ok) {
+f.append(
+"Naam",
+userName
+);
 
-      throw new Error("send failed");
+f.append(
+"Date",
+"JA ❤️"
+);
 
-    }
+f.append(
+"Activiteit",
+a
+);
+
+f.append(
+"Datum",
+format(d)
+);
+
+f.append(
+"Tijd",
+t
+);
+
+f.append(
+"_subject",
+"❤️ " + userName + " wil op date!"
+);
+
+f.append(
+"_captcha",
+"false"
+);
+
+f.append(
+"_template",
+"table"
+);
 
 
-    show(5);
+try{
+
+const r =
+await fetch(
+"https://formsubmit.co/ajax/" + MY_EMAIL,
+{
+method:"POST",
+headers:{
+Accept:"application/json"
+},
+body:f
+}
+);
 
 
-  } catch (e) {
+if(!r.ok){
 
-    err.textContent =
-      "De mail kon niet verstuurd worden. Controleer of je FormSubmit eerst hebt geactiveerd via de bevestigingsmail.";
+throw new Error("send failed");
 
-    btn.disabled = false;
+}
 
-    btn.textContent =
-      "Verstuur ❤️";
 
-  }
+document.getElementById("finalName").textContent =
+userName;
+
+show(6);
+
+
+}
+catch(e){
+
+err.textContent =
+"De mail kon niet verstuurd worden. Controleer of je FormSubmit eerst hebt geactiveerd via de bevestigingsmail.";
+
+btn.disabled = false;
+
+btn.textContent =
+"Verstuur ❤️";
+
+}
 
 }
 
 
 /* HARTJES */
 
-function heart() {
+function heart(){
 
-  const x =
-    document.createElement("div");
+const x =
+document.createElement("div");
 
-  x.className = "heart";
+x.className = "heart";
 
-  x.textContent =
-    ["❤️", "💕", "💗", "💖"][
-      Math.floor(Math.random() * 4)
-    ];
+x.textContent =
+["❤️","💕","💗","💖"][
+Math.floor(Math.random()*4)
+];
 
-  x.style.left =
-    Math.random() * 100 + "%";
+x.style.left =
+Math.random()*100 + "%";
 
-  x.style.animationDuration =
-    5 + Math.random() * 5 + "s";
+x.style.animationDuration =
+5 + Math.random()*5 + "s";
 
-  x.style.fontSize =
-    15 + Math.random() * 18 + "px";
+x.style.fontSize =
+15 + Math.random()*18 + "px";
 
-  document
-    .getElementById("hearts")
-    .appendChild(x);
+document
+.getElementById("hearts")
+.appendChild(x);
 
-
-  setTimeout(
-    () => x.remove(),
-    10000
-  );
+setTimeout(
+() => x.remove(),
+10000
+);
 
 }
 
-
-setInterval(heart, 900);
+setInterval(heart,900);
 
 </script>
 
 </body>
 </html>
-
